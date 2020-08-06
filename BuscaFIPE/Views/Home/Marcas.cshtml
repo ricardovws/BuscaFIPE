@@ -1,0 +1,14 @@
+﻿@model BuscaFIPE.Models.InfosFipeApiViewModel
+@{
+    ViewData["Title"] = "Marcas";
+}
+
+<h2>Marcas</h2>
+<hr/>
+<div>
+    @foreach(var marca in Model.Marcas)
+    {
+        <p>@Html.DisplayFor(model => marca.Marca)</p>
+    }
+</div>
+

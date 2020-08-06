@@ -5,34 +5,39 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BuscaFIPE.Models;
+using System.Net.Http;
+using BuscaFIPE.Models.Enums;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace BuscaFIPE.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly FipeAPI _api;
+
+        public HomeController(FipeAPI api)
+        {
+            _api = api;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult About()
+        [HttpGet]
+        public async Task<InfosFipeApiViewModel> GetMarcas()
         {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
+            return await _api.GetMarcasAsync();
         }
 
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
 
-            return View();
-        }
-
-        public IActionResult Privacy()
+        public IActionResult Marcas()
         {
-            return View();
+            return View(GetMarcas().Result);
         }
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

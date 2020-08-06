@@ -31,6 +31,9 @@ namespace BuscaFIPE
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddHttpClient<FipeAPI>(client => {
+                client.BaseAddress = new System.Uri("https://parallelum.com.br/fipe/api/v1/");
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
