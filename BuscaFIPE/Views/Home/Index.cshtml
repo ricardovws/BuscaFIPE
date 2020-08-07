@@ -1,4 +1,4 @@
-﻿@model BuscaFIPE.Models.TipoDeVeiculo
+﻿@model BuscaFIPE.Models.InfosFipeApiViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -6,17 +6,20 @@
 
 <div class="row">
     <div class="col-md-3">
+        
         <label for="veiculos">Escolha um tipo de veículo:</label>
+        <select asp-for="Veiculo" asp-items="Model.Tipos" id="opcoesVeiculos"
+                onchange="buscaMarcas(this.options[this.selectedIndex].value)"></select>
 
-        <form asp-action="Marcas">
-            <select asp-for="Veiculo" asp-items="Model.Tipos"></select>
-            <br /><button type="submit">Buscar</button>
-        </form>
 
-        <button id="teste">CLICA EM MIM!</button>
+        <label for="marcas">Escolha uma marca:</label>
+        <div>
+            @await Html.PartialAsync("_Marcas", Model)
+        </div>
+
     </div>
 </div>
 @section Scripts{
-    <script src="~/js/veiculo.js">
+    <script src="~/js/buscas.js">
     </script>
 }

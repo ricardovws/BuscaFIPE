@@ -8,6 +8,7 @@ using BuscaFIPE.Models;
 using System.Net.Http;
 using System.Net;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BuscaFIPE.Controllers
 {
@@ -22,21 +23,35 @@ namespace BuscaFIPE.Controllers
 
         public IActionResult Index()
         {
-            var marcas = new TipoDeVeiculo();
+            var marcas = new InfosFipeApiViewModel();
             return View(marcas);
         }
 
-        public IActionResult Marcas(string marca)
+        private async Task<InfosFipeApiViewModel> GetMarcas(string veiculo)
         {
-            return View(GetMarcas().Result);
+            return await _api.GetMarcasAsync(veiculo);       
         }
 
         [HttpGet]
-        public async Task<InfosFipeApiViewModel> GetMarcas()
+        public IActionResult MostraMarcas(string veiculo)
         {
-            return await _api.GetMarcasAsync();
+
+            var listaDeMarcas = GetMarcas(veiculo).Result;
+            var listaDeMarcasParaFiltrar = GeraListaDeMarcas(listaDeMarcas);
+            return PartialView("_Marcas", listaDeMarcasParaFiltrar);
         }
-        
+
+        private InfosFipeApiViewModel GeraListaDeMarcas(InfosFipeApiViewModel listaDeMarcas)
+        {
+            foreach(var marca in listaDeMarcas.Marcas)
+            {
+                string nomeMarca = marca.Marca;
+                listaDeMarcas.ListaDeMarcasParaFiltrar.Add
+                    (new SelectListItem { Value = $"{nomeMarca}", Text = $"{nomeMarca}" });
+            }
+            return listaDeMarcas;
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

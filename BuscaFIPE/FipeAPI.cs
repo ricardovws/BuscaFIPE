@@ -18,9 +18,8 @@ namespace BuscaFIPE
         }
 
 
-        public async Task<InfosFipeApiViewModel> GetMarcasAsync()
+        public async Task<InfosFipeApiViewModel> GetMarcasAsync(string veiculo)
         {
-            string veiculo = "carros";
             var resposta = await _httpClient.GetAsync
                 ($"{veiculo}/marcas");
             resposta.EnsureSuccessStatusCode();
