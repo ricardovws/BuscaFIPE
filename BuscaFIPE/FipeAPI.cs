@@ -1,5 +1,6 @@
 ﻿using BuscaFIPE.Models;
 using BuscaFIPE.Models.JSON_Classes;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,6 @@ namespace BuscaFIPE
             _httpClient = httpClient;
         }
 
-
         public async Task<InfosFipeApiViewModel> GetMarcasAsync(string veiculo)
         {
             var resposta = await _httpClient.GetAsync
@@ -35,12 +35,9 @@ namespace BuscaFIPE
             var resposta = await _httpClient.GetAsync
                 ($"{veiculo}/marcas/{codigoMarca}/modelos");
             resposta.EnsureSuccessStatusCode();
-
-            var teste_0 = resposta.Content.
-                ReadAsAsync<InfoFipeApiModelosAnos>();
-            var teste_1 = GetListaDeModelos(teste_0.Result);
-
-            return teste_1;
+            
+            return GetListaDeModelos(resposta.Content.
+                ReadAsAsync<InfoFipeApiModelosAnos>().Result);
 
         }
 
@@ -50,22 +47,63 @@ namespace BuscaFIPE
                 ($"{veiculo}/marcas/{codigoMarca}/modelos/{codigoModelo}/anos");
             resposta.EnsureSuccessStatusCode();
 
-            var teste_0 = resposta.Content.ReadAsAsync<List<InfoFipeApi>>();
-            var teste_1 = GetListaDeAnos(teste_0.Result);
-
-            return teste_1;
+            return GetListaDeAnos(resposta.Content.
+                ReadAsAsync<List<InfoFipeApi>>().Result);
         }
 
-        public async Task<Veiculo> GetVeiculoAsync(string veiculo, string codigoMarca, string codigoModelo, string codigoAno)
+        public async Task<InfosFipeApiViewModel> GetVeiculoAsync(string veiculo, string codigoMarca, string codigoModelo, string codigoAno)
         {
             var resposta = await _httpClient.GetAsync
                 ($"{veiculo}/marcas/{codigoMarca}/modelos/{codigoModelo}/anos/{codigoAno}");
             resposta.EnsureSuccessStatusCode();
 
-            var teste_0 = resposta.Content.ReadAsAsync<InfoFipeApiVeiculo>();
-            var teste_1 = GetVeiculoSelecionado(teste_0.Result);
+            return new InfosFipeApiViewModel
+            {
+                VeiculoSelecionado = GetVeiculoSelecionado(resposta.Content.
+                ReadAsAsync<InfoFipeApiVeiculo>().Result)
+            }; 
+        }
 
-            return teste_1;
+        private InfosFipeApiViewModel GetListaDeMarcas(List<InfoFipeApi> marcas)
+        {
+
+            var marcasVeiculo = new InfosFipeApiViewModel();
+
+            foreach (var marca in marcas)
+            {
+                marcasVeiculo.ListaDeMarcasParaFiltrar.Add
+                    (new SelectListItem { Value = $"{marca.codigo}", Text = $"{marca.nome}" });
+            }
+
+            return marcasVeiculo;
+        }
+
+        private InfosFipeApiViewModel GetListaDeModelos(InfoFipeApiModelosAnos modelos)
+        {
+
+            var modelosVeiculo = new InfosFipeApiViewModel();
+          
+            foreach (var modelo in modelos.modelos)
+            {
+                modelosVeiculo.ListaDeModelosParaFiltrar.Add
+                    (new SelectListItem { Value = $"{modelo.codigo}", Text = $"{modelo.nome}" });
+            }
+
+            return modelosVeiculo;
+        }
+
+        private InfosFipeApiViewModel GetListaDeAnos(List<InfoFipeApi> anos)
+        {
+
+            var anosVeiculo = new InfosFipeApiViewModel();
+         
+            foreach (var ano in anos)
+            {
+                anosVeiculo.ListaDeAnosParaFiltrar.Add
+                    (new SelectListItem { Value = $"{ano.codigo}", Text = $"{ano.nome}" });
+            }
+
+            return anosVeiculo;
         }
 
         private Veiculo GetVeiculoSelecionado(InfoFipeApiVeiculo veiculoSelecionado)
@@ -82,56 +120,6 @@ namespace BuscaFIPE
             };
 
             return veiculo;
-        }
-
-        private InfosFipeApiViewModel GetListaDeAnos(List<InfoFipeApi> anos)
-        {
-
-            var anosVeiculo = new InfosFipeApiViewModel();
-            foreach (var ano in anos)
-            {
-                var infoVeiculo = new Veiculo
-                {
-                    AnoModelo = ano.nome,
-                    CodigoAnoModelo = ano.codigo
-                };
-                anosVeiculo.Anos.Add(infoVeiculo);
-            }
-            return anosVeiculo;
-        }
-
-
-        private InfosFipeApiViewModel GetListaDeModelos(InfoFipeApiModelosAnos modelos)
-        {
-
-            var modelosVeiculo = new InfosFipeApiViewModel();
-            foreach (var modelo in modelos.modelos)
-            {
-                var infoVeiculo = new Veiculo
-                {
-                    Modelo = modelo.nome,
-                    CodigoModelo = modelo.codigo
-                };
-                modelosVeiculo.Modelos.Add(infoVeiculo);
-            }
-            return modelosVeiculo;
-        }
-
-
-        private InfosFipeApiViewModel GetListaDeMarcas(List<InfoFipeApi> marcas)
-        {
-            
-            var marcasVeiculo = new InfosFipeApiViewModel();
-            foreach(var marca in marcas)
-            {
-                var infoVeiculo = new Veiculo
-                {
-                    Marca = marca.nome,
-                    CodigoMarca = marca.codigo
-                };
-                marcasVeiculo.Marcas.Add(infoVeiculo);
-            }
-            return marcasVeiculo;
         }
 
     }

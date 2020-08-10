@@ -5,10 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BuscaFIPE.Models;
-using System.Net.Http;
-using System.Net;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Mvc.Rendering;
+
 
 namespace BuscaFIPE.Controllers
 {
@@ -23,106 +20,40 @@ namespace BuscaFIPE.Controllers
 
         public IActionResult Index()
         {
-            var marcas = new InfosFipeApiViewModel();
-            var veiculo = new Veiculo();
-            
-            veiculo.Valor = "...";
-            veiculo.Marca = "...";
-            veiculo.Modelo = "...";
-            veiculo.AnoModelo = "...";
-            veiculo.Combustivel = "...";
-            veiculo.CodigoFipe = "...";
-            veiculo.MesReferencia = "...";
-
-            marcas.VeiculoSelecionado = veiculo;
+            var infos = new InfosFipeApiViewModel
+            {
+                VeiculoSelecionado = new Veiculo()
+            };
           
-            return View(marcas);
-           
+            return View(infos);
         }
 
         [HttpGet]
         public IActionResult MostraMarcas(string veiculo)
         {
-            var listaDeMarcas = GetMarcasAsync(veiculo).Result;
-            var listaDeMarcasParaFiltrar = GeraListaDeMarcas(listaDeMarcas);
-            return PartialView("_Marcas", listaDeMarcasParaFiltrar);
+            var listaDeMarcas = _api.GetMarcasAsync(veiculo).Result;
+            return PartialView("_Marcas", listaDeMarcas);
         }
 
         [HttpGet]
         public IActionResult MostraModelos(string veiculo, string codigoMarca)
         {
-            var listaDeModelos = GetModelosAsync(veiculo, codigoMarca).Result;
-            var listaDeModelosParaFiltrar = GeraListaDeModelos(listaDeModelos);
-            return PartialView("_Modelos", listaDeModelosParaFiltrar);
+            var listaDeModelos = _api.GetModelosAsync(veiculo, codigoMarca).Result;
+            return PartialView("_Modelos", listaDeModelos);
         }
 
         [HttpGet]
         public IActionResult MostraAnos(string veiculo, string codigoMarca, string codigoModelo)
         {
-            var listaDeAnos = GetAnosAsync(veiculo, codigoMarca, codigoModelo).Result;
-            var listaDeAnosParaFiltrar = GeraListaDeAnos(listaDeAnos);
-            return PartialView("_Anos", listaDeAnosParaFiltrar);
+            var listaDeAnos = _api.GetAnosAsync(veiculo, codigoMarca, codigoModelo).Result;
+            return PartialView("_Anos", listaDeAnos);
         }
 
         [HttpGet]
         public IActionResult MostraVeiculo(string veiculo, string codigoMarca, string codigoModelo, string codigoAno)
         {
-            var veiculoSelecionado = GetVeiculoAsync(veiculo, codigoMarca, codigoModelo, codigoAno).Result;
-            var veiculoSelecionadoView = new InfosFipeApiViewModel
-            {
-                VeiculoSelecionado = veiculoSelecionado
-            };
-            return PartialView("_Veiculo", veiculoSelecionadoView);
-        }
-
-        private async Task<Veiculo> GetVeiculoAsync(string veiculo, string codigoMarca, string codigoModelo, string codigoAno)
-        {
-            return await _api.GetVeiculoAsync(veiculo, codigoMarca, codigoModelo, codigoAno);
-        }
-
-        private async Task<InfosFipeApiViewModel> GetAnosAsync(string veiculo, string codigoMarca, string codigoModelo)
-        {
-            return await _api.GetAnosAsync(veiculo, codigoMarca, codigoModelo);
-        }
-
-        private async Task<InfosFipeApiViewModel> GetModelosAsync(string veiculo, string codigoMarca)
-        {
-            return await _api.GetModelosAsync(veiculo, codigoMarca);
-        }
-
-        private async Task<InfosFipeApiViewModel> GetMarcasAsync(string veiculo)
-        {
-            return await _api.GetMarcasAsync(veiculo);       
-        }
-
-        private InfosFipeApiViewModel GeraListaDeAnos(InfosFipeApiViewModel listaDeAnos)
-        {
-            foreach (var ano in listaDeAnos.Anos)
-            {
-                listaDeAnos.ListaDeAnosParaFiltrar.Add
-                    (new SelectListItem { Value = $"{ano.CodigoAnoModelo}", Text = $"{ano.AnoModelo}" });
-            }
-            return listaDeAnos;
-        }
-
-        private InfosFipeApiViewModel GeraListaDeModelos(InfosFipeApiViewModel listaDeModelos)
-        {
-            foreach(var modelo in listaDeModelos.Modelos)
-            {
-                listaDeModelos.ListaDeModelosParaFiltrar.Add
-                    (new SelectListItem { Value = $"{modelo.CodigoModelo}", Text = $"{modelo.Modelo}" });
-            }
-            return listaDeModelos;
-        }
-
-        private InfosFipeApiViewModel GeraListaDeMarcas(InfosFipeApiViewModel listaDeMarcas)
-        {
-            foreach(var marca in listaDeMarcas.Marcas)
-            {
-                listaDeMarcas.ListaDeMarcasParaFiltrar.Add
-                    (new SelectListItem { Value = $"{marca.CodigoMarca}", Text = $"{marca.Marca}" });
-            }
-            return listaDeMarcas;
+            var veiculoSelecionado = _api.GetVeiculoAsync(veiculo, codigoMarca, codigoModelo, codigoAno).Result;
+            return PartialView("_Veiculo", veiculoSelecionado);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
