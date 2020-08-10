@@ -1,31 +1,27 @@
-﻿function buscaMarcas(veiculo) {
+﻿function buscaMarcas() {
 
+    var veiculo = getValue('opcoesVeiculos')
+    
     var url = '/Home/MostraMarcas' + '?' + 'veiculo=' + veiculo
     $("#listaDeMarcas").load(url);
     $('#opcoesMarcas').focus()
 
 }
 
-function buscaModelos(codigoMarca) {
+function buscaModelos() {
 
-    var e = document.getElementById('opcoesVeiculos');
-    var veiculo = e.options[e.selectedIndex].value;
-
+    var veiculo = getValue('opcoesVeiculos')
+    var codigoMarca = getValue('opcoesMarcas')
    
     var url = '/Home/MostraModelos' + '?' + 'veiculo=' + veiculo + '&' + 'codigoMarca=' + codigoMarca
     $("#listaDeModelos").load(url);
 }
 
-function buscaAnos(codigoModelo) {
-    var v = document.getElementById('opcoesVeiculos');
-    var veiculo = v.options[v.selectedIndex].value;
-
-  
-
-    var m = document.getElementById('opcoesMarcas');
-    var codigoMarca = m.options[m.selectedIndex].value;
-
-   
+function buscaAnos() {
+    
+    var veiculo = getValue('opcoesVeiculos')
+    var codigoMarca = getValue('opcoesMarcas')
+    var codigoModelo = getValue('opcoesModelos')
 
     var url = '/Home/MostraAnos' + '?' + 'veiculo=' + veiculo + '&' + 'codigoMarca=' + codigoMarca
         + '&' + 'codigoModelo=' + codigoModelo 
@@ -33,18 +29,22 @@ function buscaAnos(codigoModelo) {
     $("#listaDeAnos").load(url);
 }
 
-function buscaVeiculo(codigoAno) {
-    var v = document.getElementById('opcoesVeiculos');
-    var veiculo = v.options[v.selectedIndex].value;
+function buscaVeiculo() {
 
-    var m = document.getElementById('opcoesMarcas');
-    var codigoMarca = m.options[m.selectedIndex].value;
-
-    var mo = document.getElementById('opcoesModelos');
-    var codigoModelo = mo.options[mo.selectedIndex].value;
+    var veiculo = getValue('opcoesVeiculos')
+    var codigoMarca = getValue('opcoesMarcas')
+    var codigoModelo = getValue('opcoesModelos')
+    var codigoAno = getValue('opcoesAnos')
 
     var url = '/Home/MostraVeiculo' + '?' + 'veiculo=' + veiculo + '&' + 'codigoMarca=' + codigoMarca
         + '&' + 'codigoModelo=' + codigoModelo + '&' + 'codigoAno=' + codigoAno
-    debugger;
+    
     $("#veiculoSelecionado").load(url);
+}
+
+function getValue(id) {
+    var element = document.getElementById(id)
+    var elementValue = element.options[element.selectedIndex].value
+
+    return elementValue;
 }

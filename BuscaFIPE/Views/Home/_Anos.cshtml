@@ -2,5 +2,6 @@
 
 <div id="listaDeAnos">
     <select asp-for="Ano" asp-items="Model.ListaDeAnosParaFiltrar" id="opcoesAnos"
-            onchange="buscaVeiculo(this.options[this.selectedIndex].value)"></select>
+            onchange="buscaVeiculo()">
+    </select>
 </div>

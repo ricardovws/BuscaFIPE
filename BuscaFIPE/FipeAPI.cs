@@ -59,9 +59,10 @@ namespace BuscaFIPE
 
             return new InfosFipeApiViewModel
             {
-                VeiculoSelecionado = GetVeiculoSelecionado(resposta.Content.
-                ReadAsAsync<InfoFipeApiVeiculo>().Result)
-            }; 
+                VeiculoSelecionado = resposta.Content.
+                    ReadAsAsync<InfoFipeApiVeiculo>().Result
+            };
+
         }
 
         private InfosFipeApiViewModel GetListaDeMarcas(List<InfoFipeApi> marcas)
@@ -104,22 +105,6 @@ namespace BuscaFIPE
             }
 
             return anosVeiculo;
-        }
-
-        private Veiculo GetVeiculoSelecionado(InfoFipeApiVeiculo veiculoSelecionado)
-        {
-            var veiculo = new Veiculo
-            {
-                Valor = veiculoSelecionado.Valor,
-                Marca = veiculoSelecionado.Marca,
-                Modelo = veiculoSelecionado.Modelo,
-                AnoModelo = veiculoSelecionado.AnoModelo,
-                Combustivel = veiculoSelecionado.Combustivel,
-                CodigoFipe = veiculoSelecionado.CodigoFipe,
-                MesReferencia = veiculoSelecionado.MesReferencia
-            };
-
-            return veiculo;
         }
 
     }

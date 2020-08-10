@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using BuscaFIPE.Models.JSON_Classes;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,7 @@ namespace BuscaFIPE.Models
         public List<SelectListItem> ListaDeAnosParaFiltrar { get; set; } = new List<SelectListItem>();
 
         //Veiculo selecionado
-        public Veiculo VeiculoSelecionado { get; set; }
+        public InfoFipeApiVeiculo VeiculoSelecionado { get; set; }
 
     }
 }

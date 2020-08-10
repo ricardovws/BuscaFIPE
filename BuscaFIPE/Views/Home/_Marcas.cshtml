@@ -2,7 +2,7 @@
    
 <div id="listaDeMarcas">
     <select asp-for="Marca" asp-items="Model.ListaDeMarcasParaFiltrar" id="opcoesMarcas"
-        onchange="buscaModelos(this.options[this.selectedIndex].value)">
+        onchange="buscaModelos()">
     </select>
 </div>
 

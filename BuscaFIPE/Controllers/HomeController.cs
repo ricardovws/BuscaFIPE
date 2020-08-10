@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BuscaFIPE.Models;
-
+using BuscaFIPE.Models.JSON_Classes;
 
 namespace BuscaFIPE.Controllers
 {
@@ -22,9 +22,9 @@ namespace BuscaFIPE.Controllers
         {
             var infos = new InfosFipeApiViewModel
             {
-                VeiculoSelecionado = new Veiculo()
+                VeiculoSelecionado = new InfoFipeApiVeiculo()
             };
-          
+            
             return View(infos);
         }
 
