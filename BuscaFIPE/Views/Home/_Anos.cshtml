@@ -1,0 +1,6 @@
+﻿@model BuscaFIPE.Models.InfosFipeApiViewModel
+
+<div id="listaDeAnos">
+    <select asp-for="Ano" asp-items="Model.ListaDeAnosParaFiltrar" id="opcoesAnos"
+            onchange="buscaVeiculo(this.options[this.selectedIndex].value)"></select>
+</div>

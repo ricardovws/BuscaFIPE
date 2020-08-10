@@ -1,7 +1,8 @@
 ﻿@model BuscaFIPE.Models.InfosFipeApiViewModel
    
 <div id="listaDeMarcas">
-    <select asp-for="Marca" asp-items="Model.ListaDeMarcasParaFiltrar" id="opcoesMarcas">
+    <select asp-for="Marca" asp-items="Model.ListaDeMarcasParaFiltrar" id="opcoesMarcas"
+        onchange="buscaModelos(this.options[this.selectedIndex].value)">
     </select>
 </div>
 

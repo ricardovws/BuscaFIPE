@@ -6,7 +6,7 @@
 
 <div class="row">
     <div class="col-md-3">
-        
+
         <label for="veiculos">Escolha um tipo de veículo:</label>
         <select asp-for="Veiculo" asp-items="Model.Tipos" id="opcoesVeiculos"
                 onchange="buscaMarcas(this.options[this.selectedIndex].value)"></select>
@@ -15,6 +15,21 @@
         <label for="marcas">Escolha uma marca:</label>
         <div>
             @await Html.PartialAsync("_Marcas", Model)
+        </div>
+
+        <label for="modelos">Escolha um modelo:</label>
+        <div>
+            @await Html.PartialAsync("_Modelos", Model)
+        </div>
+
+        <label for="anos">Escolha um ano:</label>
+        <div>
+            @await Html.PartialAsync("_Anos", Model)
+        </div>
+
+        <label for="veiculoSelecionado">Informações do veículo:</label>
+        <div>
+            @await Html.PartialAsync("_Veiculo", Model)
         </div>
 
     </div>
