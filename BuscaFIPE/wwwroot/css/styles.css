@@ -1,0 +1,45 @@
+﻿
+.navbar-inverse {
+    background-color: darkcyan;
+}
+
+.navbar-brand {
+    font-size: 3rem;
+}
+
+.container {
+    width: 50%;
+}
+
+legend {
+    font-size: 2rem;
+}
+
+select{
+    color: black;
+}
+
+.search-fields {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+.search-fields select{
+    width: 12em;
+}
+
+.search-fields_secondary {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+label {
+    font-size: 2rem;
+}
+
+.choosen {
+    display: none;
+}

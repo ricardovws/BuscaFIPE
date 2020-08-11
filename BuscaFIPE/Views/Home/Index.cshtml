@@ -3,37 +3,47 @@
     ViewData["Title"] = "Home Page";
 }
 
+<fieldset>
+    <legend>Preencha os campos abaixo para obter o valor do veículo de acordo com a FIPE.</legend>
 
-<div class="row">
-    <div class="col-md-3">
+        <content class="search-fields">
+            <div class="search-fields_secondary">
+                <label>Escolha um tipo de veículo:</label>
+                <div>
+                    <select asp-for="Veiculo" asp-items="Model.Tipos" id="opcoesVeiculos"
+                            onchange="buscaMarcas()"></select>
+                </div>
+            </div>
+            <div class="search-fields_secondary">
+                <label>Escolha uma marca:</label>
+                @await Html.PartialAsync("_Marcas", Model)
+            </div>
 
-        <label>Escolha um tipo de veículo:</label>
-        <select asp-for="Veiculo" asp-items="Model.Tipos" id="opcoesVeiculos"
-                onchange="buscaMarcas()"></select>
-     
-        <label>Escolha uma marca:</label>
-        <div>
-            @await Html.PartialAsync("_Marcas", Model)
-        </div>
 
-        <label>Escolha um modelo:</label>
-        <div>
-            @await Html.PartialAsync("_Modelos", Model)
-        </div>
+            <div class="search-fields_secondary">
+                <label>Escolha um modelo:</label>
+                @await Html.PartialAsync("_Modelos", Model)
+            </div>
 
-        <label>Escolha um ano:</label>
-        <div>
-            @await Html.PartialAsync("_Anos", Model)
-        </div>
 
-        <label>Informações do veículo:</label>
-        <div>
-            @await Html.PartialAsync("_Veiculo", Model)
-        </div>
+            <div class="search-fields_secondary">
+                <label>Escolha um ano:</label>
+                @await Html.PartialAsync("_Anos", Model)
+            </div>
+        </content>
 
-    </div>
-</div>
+        <content class="choosen">
+            <div class="search-fields_secondary">
+                <label>Informações do veículo:</label>
+                @await Html.PartialAsync("_Veiculo", Model)
+            </div>
+        </content>
+</fieldset>
+
+
 @section Scripts{
     <script src="~/js/buscas.js">
     </script>
 }
+
+
