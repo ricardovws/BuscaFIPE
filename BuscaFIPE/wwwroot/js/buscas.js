@@ -1,45 +1,69 @@
-﻿function buscaMarcas() {
+﻿
+function limpaDados(id, dados) {
+    var url = '/Home/LimpaDados?dados=' + dados
+    $(id).load(url)
+}
 
-    var veiculo = getValue('opcoesVeiculos')
-    
-    var url = '/Home/MostraMarcas' + '?' + 'veiculo=' + veiculo
-    $("#listaDeMarcas").load(url);
+
+function buscaMarcas() {
+  
+    var url = '/Home/MostraMarcas?veiculo=' +
+        getValue('opcoesVeiculos')
+
+    $("#listaDeMarcas").load(url)
+
+    limpaDados('#opcoesAnos', 'Anos')
+    limpaDados('#opcoesModelos', 'Modelos')
+    limpaDados('#veiculoSelecionado', 'Veiculo')
+
     $('#opcoesMarcas').focus()
 
 }
 
 function buscaModelos() {
-
-    var veiculo = getValue('opcoesVeiculos')
-    var codigoMarca = getValue('opcoesMarcas')
    
-    var url = '/Home/MostraModelos' + '?' + 'veiculo=' + veiculo + '&' + 'codigoMarca=' + codigoMarca
-    $("#listaDeModelos").load(url);
+    var url = '/Home/MostraModelos?veiculo=' +
+        getValue('opcoesVeiculos') +
+        '&codigoMarca=' +
+        getValue('opcoesMarcas')
+
+    $("#listaDeModelos").load(url)
+
+    limpaDados('#opcoesAnos', 'Anos')
+    limpaDados('#veiculoSelecionado', 'Veiculo')
+
+    $('#opcoesModelos').focus()
 }
 
 function buscaAnos() {
     
-    var veiculo = getValue('opcoesVeiculos')
-    var codigoMarca = getValue('opcoesMarcas')
-    var codigoModelo = getValue('opcoesModelos')
+    var url = '/Home/MostraAnos?veiculo=' +
+        getValue('opcoesVeiculos') +
+        '&codigoMarca=' +
+        getValue('opcoesMarcas') +
+        '&codigoModelo=' +
+        getValue('opcoesModelos') 
 
-    var url = '/Home/MostraAnos' + '?' + 'veiculo=' + veiculo + '&' + 'codigoMarca=' + codigoMarca
-        + '&' + 'codigoModelo=' + codigoModelo 
-    
-    $("#listaDeAnos").load(url);
+    $("#listaDeAnos").load(url)
+
+    limpaDados('#veiculoSelecionado', 'Veiculo')
+
+    $('#opcoesAnos').focus()
 }
 
 function buscaVeiculo() {
 
-    var veiculo = getValue('opcoesVeiculos')
-    var codigoMarca = getValue('opcoesMarcas')
-    var codigoModelo = getValue('opcoesModelos')
-    var codigoAno = getValue('opcoesAnos')
+    var url = '/Home/MostraVeiculo?veiculo=' +
+        getValue('opcoesVeiculos') +
+        '&codigoMarca=' +
+        getValue('opcoesMarcas') +
+        '&codigoModelo=' +
+        getValue('opcoesModelos') +
+        '&codigoAno=' +
+        getValue('opcoesAnos')
 
-    var url = '/Home/MostraVeiculo' + '?' + 'veiculo=' + veiculo + '&' + 'codigoMarca=' + codigoMarca
-        + '&' + 'codigoModelo=' + codigoModelo + '&' + 'codigoAno=' + codigoAno
-    
     $("#veiculoSelecionado").load(url);
+
 }
 
 function getValue(id) {

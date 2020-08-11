@@ -70,6 +70,8 @@ namespace BuscaFIPE
 
             var marcasVeiculo = new InfosFipeApiViewModel();
 
+            AdicionaOpcaoNaLista(marcasVeiculo.ListaDeMarcasParaFiltrar);
+
             foreach (var marca in marcas)
             {
                 marcasVeiculo.ListaDeMarcasParaFiltrar.Add
@@ -83,7 +85,9 @@ namespace BuscaFIPE
         {
 
             var modelosVeiculo = new InfosFipeApiViewModel();
-          
+
+            AdicionaOpcaoNaLista(modelosVeiculo.ListaDeModelosParaFiltrar);
+
             foreach (var modelo in modelos.modelos)
             {
                 modelosVeiculo.ListaDeModelosParaFiltrar.Add
@@ -97,7 +101,9 @@ namespace BuscaFIPE
         {
 
             var anosVeiculo = new InfosFipeApiViewModel();
-         
+
+            AdicionaOpcaoNaLista(anosVeiculo.ListaDeAnosParaFiltrar);
+
             foreach (var ano in anos)
             {
                 anosVeiculo.ListaDeAnosParaFiltrar.Add
@@ -105,6 +111,11 @@ namespace BuscaFIPE
             }
 
             return anosVeiculo;
+        }
+
+        private void AdicionaOpcaoNaLista(List<SelectListItem> lista)
+        {
+            lista.Add(new SelectListItem { Value = "", Text = "Selecione uma opção" });
         }
 
     }

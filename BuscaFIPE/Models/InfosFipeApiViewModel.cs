@@ -14,6 +14,7 @@ namespace BuscaFIPE.Models
 
         public List<SelectListItem> Tipos { get; } = new List<SelectListItem>
         {
+            new SelectListItem {Value = "", Text = "Selecione uma opção"},
             new SelectListItem {Value = "carros", Text = "Carros"},
             new SelectListItem {Value = "motos", Text = "Motos"},
             new SelectListItem {Value = "caminhoes", Text = "Caminhões"},

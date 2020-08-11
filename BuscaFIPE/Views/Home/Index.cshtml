@@ -10,8 +10,7 @@
         <label>Escolha um tipo de veículo:</label>
         <select asp-for="Veiculo" asp-items="Model.Tipos" id="opcoesVeiculos"
                 onchange="buscaMarcas()"></select>
-
-
+     
         <label>Escolha uma marca:</label>
         <div>
             @await Html.PartialAsync("_Marcas", Model)
